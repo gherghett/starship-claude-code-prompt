@@ -12,25 +12,32 @@ Shows message count, how long ago the session was active, and whether it's runni
 
 ## Install
 
-1. Copy the script somewhere on your path:
+### Option A: Zig binary (faster, ~9ms vs ~60ms)
+
+```bash
+zig build -Doptimize=ReleaseSmall
+cp zig-out/bin/claude-session-info ~/.local/bin/
+```
+
+### Option B: Shell script
 
 ```bash
 cp claude-session-info.sh ~/.config/claude-session-info.sh
 chmod +x ~/.config/claude-session-info.sh
 ```
 
-2. Add the module to your `~/.config/starship.toml`:
+### Starship config
+
+Add to your `~/.config/starship.toml`:
 
 ```toml
 [custom.claude]
-command = "~/.config/claude-session-info.sh"
-when = "test -d ~/.claude/projects/$(echo $PWD | sed 's|^/||; s|/|-|g; s|^|-|')"
+command = "claude-session-info"  # or ~/.config/claude-session-info.sh for the script
+when = "claude-session-info"     # or: test -d ~/.claude/projects/$(echo $PWD | sed 's|^/||; s|/|-|g; s|^|-|')
 format = "[$output]($style) "
 style = "bold #da7756"
 shell = ["bash", "--noprofile", "--norc"]
 ```
-
-That's it.
 
 ## What it reads
 
@@ -52,4 +59,4 @@ The project directory name is your `$PWD` with slashes replaced by dashes (e.g. 
 
 - [Starship](https://starship.rs)
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code)
-- Linux (uses `stat -c` — macOS would need `stat -f`)
+- Linux (uses Linux syscalls / `stat -c`)

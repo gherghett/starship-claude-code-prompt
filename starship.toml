@@ -1,8 +1,8 @@
 # Add this to your ~/.config/starship.toml
 
 [custom.claude]
-command = "~/.config/claude-session-info.sh"
-when = "test -d ~/.claude/projects/$(echo $PWD | sed 's|^/||; s|/|-|g; s|^|-|')"
+command = "claude-session-info"
+when = "claude-session-info"
 format = "[$output]($style) "
 style = "bold #da7756"
 shell = ["bash", "--noprofile", "--norc"]
