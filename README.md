@@ -55,8 +55,13 @@ The project directory name is your `$PWD` with slashes replaced by dashes (e.g. 
 - `3h` / `2d` / `1w` — time since the session was last active
 - `✳` — the session is running right now (replaces the time)
 
+## Compatibility
+
+- The Zig binary works on Linux and macOS (uses Zig's std lib, no platform-specific syscalls)
+- The shell script uses `stat -c %Y` which is Linux-only — on macOS, swap it for `stat -f %m`
+- Reads Claude Code's internal session files (`~/.claude/`) which are undocumented and could change between versions. If they do, the module just silently hides itself
+
 ## Requirements
 
 - [Starship](https://starship.rs)
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code)
-- Linux (uses Linux syscalls / `stat -c`)
